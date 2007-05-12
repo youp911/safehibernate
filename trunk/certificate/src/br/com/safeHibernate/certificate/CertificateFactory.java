@@ -1,9 +1,7 @@
 package br.com.safeHibernate.certificate;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.math.BigInteger;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
@@ -49,6 +47,7 @@ public class CertificateFactory {
 	/**
 	 * @param startDate time from which certificate is valid
 	 * @param expiryDate time after which certificate is not valid
+	 * @return 
 	 * @throws SignatureException
 	 * @throws NoSuchAlgorithmException
 	 * @throws NoSuchProviderException
@@ -56,7 +55,7 @@ public class CertificateFactory {
 	 * @throws InvalidKeyException
 	 * @throws CertificateEncodingException
 	 */
-	public static void generateSelfSignedCertificate(Date startDate,
+	public static X509Certificate generateSelfSignedCertificate(Date startDate,
 		Date expiryDate,
 		BigInteger serialNumber,
 		PublicKey publicKey,
@@ -81,35 +80,27 @@ public class CertificateFactory {
 		certGen.setPublicKey(publicKey);
 		certGen.setSignatureAlgorithm(DEFAULT_SIGNATURE_ALGORITHM);
 
-		X509Certificate certJean = certGen.generate(privateKey,
+		return certGen.generate(privateKey,
 				SECURITY_PROVIDER);
-		System.out.println(certJean);
 	}
 
 	/**
+	 * 
 	 * @param certificate
-	 * @param file
+	 * @param out
 	 * @throws IOException
 	 * @throws CertificateEncodingException
 	 * @throws java.security.cert.CertificateEncodingException
 	 */
-	public static void exportCertificate(X509Certificate certificate, File file)
-			throws IOException,
-				CertificateEncodingException,
-				java.security.cert.CertificateEncodingException {
-		FileOutputStream fos = null;
-		BufferedOutputStream bos = null;
-		try {
-			fos = new FileOutputStream(file);
-			bos = new BufferedOutputStream(fos);
-			bos.write(certificate.getEncoded());
-			bos.flush();
-		} finally {
-			if (fos != null) fos.close();
-			if (bos != null) bos.close();
-		}
+	public static void exportCertificate(X509Certificate certificate, OutputStream out)
+	throws IOException,
+		CertificateEncodingException,
+		java.security.cert.CertificateEncodingException {
+		out.write(certificate.getEncoded());
+		out.flush();
+		out.close();
 	}
-
+	
 	public static X509Certificate generateCASignedX509Certificate(PrivateKey caPrivateKey,
 		X509Certificate caCert,
 		Date startDate,
@@ -165,21 +156,13 @@ public class CertificateFactory {
 		}
 	}
 
-	/**
-	 * Saves public key in csr file
-	 * @param publicKey public key to save
-	 * @param file destination file
-	 * @throws IOException any exception during the save process
-	 */
-	public static final void saveKeyToCsrFile(PublicKey publicKey, File file)
-			throws IOException {
+	public static final void saveKeyToCsr(PublicKey publicKey, OutputStream out) throws IOException {
 		BASE64Encoder myB64 = new BASE64Encoder();
 		String b64 = myB64.encode(publicKey.getEncoded());
+		out.write("-----BEGIN CERTIFICATE-----\r\n".getBytes());
+		out.write(b64.getBytes());
+		out.write("-----END CERTIFICATE-----\r\n".getBytes());
+		out.close();
 
-		FileOutputStream fos = new FileOutputStream(file);
-		fos.write("-----BEGIN CERTIFICATE-----\r\n".getBytes());
-		fos.write(b64.getBytes());
-		fos.write("-----END CERTIFICATE-----\r\n".getBytes());
-		fos.close();
 	}
 }
