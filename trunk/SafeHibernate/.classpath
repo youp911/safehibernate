@@ -3,5 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="var" path="HIBERNATE_HOME/hibernate3.jar" sourcepath="/HIBERNATE_HOME/src"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/certificate"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
