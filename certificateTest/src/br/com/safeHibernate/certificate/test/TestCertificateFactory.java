@@ -74,7 +74,7 @@ public class TestCertificateFactory extends TestCase {
 	 * @throws IllegalStateException
 	 * @throws InvalidKeyException
 	 * @throws CertificateEncodingException
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public void testExportCertificate()
 			throws CertificateEncodingException,
@@ -82,7 +82,8 @@ public class TestCertificateFactory extends TestCase {
 				IllegalStateException,
 				NoSuchProviderException,
 				NoSuchAlgorithmException,
-				SignatureException, IOException {
+				SignatureException,
+				IOException {
 		X509Certificate certificate = generateTestCertificate(null);
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		CertificateFactory.exportCertificate(certificate, baos);
@@ -100,12 +101,11 @@ public class TestCertificateFactory extends TestCase {
 		KeyPair otherKey = CertificateFactory.createKeyPair();
 		Date startDate = new Date();
 		Date expiryDate = new Date();
-		BigInteger serialNumber = new BigInteger("222222");
 		String principal = "CN=Other subject";
 		X509Certificate otherCertificate = CertificateFactory
 				.generateCASignedX509Certificate(keyPair.getPrivate(),
-						certificate, startDate, expiryDate, serialNumber,
-						otherKey.getPublic(), principal);
+						certificate, startDate, expiryDate, otherKey
+								.getPublic(), principal);
 		assertNotNull(otherCertificate);
 		assertEquals(otherCertificate.getIssuerDN(), certificate.getIssuerDN());
 		assertEquals(otherCertificate.getSubjectDN().toString(), principal);
@@ -158,12 +158,10 @@ public class TestCertificateFactory extends TestCase {
 				SignatureException {
 		Date startDate = new Date();
 		Date expiryDate = new Date();
-		BigInteger serialNumber = new BigInteger("1111111111111111");
 		String dName = "CN=Test Generate Self Signed Certificate";
 		KeyPair key = keyPair != null ? keyPair : CertificateFactory
 				.createKeyPair();
 		return CertificateFactory.generateSelfSignedCertificate(startDate,
-				expiryDate, serialNumber, key.getPublic(), key.getPrivate(),
-				dName);
+				expiryDate, key.getPublic(), key.getPrivate(), dName);
 	}
 }
