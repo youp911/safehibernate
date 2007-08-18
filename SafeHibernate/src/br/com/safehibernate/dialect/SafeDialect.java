@@ -18,16 +18,16 @@ import org.hibernate.persister.entity.Lockable;
 import org.hibernate.sql.CaseFragment;
 import org.hibernate.sql.JoinFragment;
 
-public class SafeDialect extends Dialect {
+import br.com.safehibernate.CustomProperties;
 
-	private static final String WRAPPED_PROPERTY = "safeHibernate.wrappedDialect";
+public class SafeDialect extends Dialect {
 
 	private Dialect inner;
 
 	public SafeDialect() {
 				
 		
-		String className = Environment.getProperties().getProperty( WRAPPED_PROPERTY );
+		String className = Environment.getProperties().getProperty( CustomProperties.WRAPPED_DIALECT );
 		Class<?> clazz;
 		try {
 			if (className == null || className.trim().equals("")) {
@@ -35,7 +35,7 @@ public class SafeDialect extends Dialect {
 			}
 			clazz = Class.forName(className);
 		} catch (ClassNotFoundException e) {
-			throw new RuntimeException(WRAPPED_PROPERTY + " not found");
+			throw new RuntimeException(CustomProperties.WRAPPED_DIALECT + " not found");
 		}
 		try {
 			this.inner = (Dialect) clazz.newInstance();
