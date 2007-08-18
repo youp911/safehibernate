@@ -15,7 +15,9 @@ import java.security.Security;
 import java.security.SignatureException;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.X509Certificate;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 import javax.security.auth.x500.X500Principal;
 
@@ -57,7 +59,6 @@ public class CertificateFactory {
 	 */
 	public static X509Certificate generateSelfSignedCertificate(Date startDate,
 		Date expiryDate,
-		BigInteger serialNumber,
 		PublicKey publicKey,
 		PrivateKey privateKey,
 		String dName)
@@ -71,6 +72,10 @@ public class CertificateFactory {
 		X509V1CertificateGenerator certGen = new X509V1CertificateGenerator();
 		X500Principal dnName = new X500Principal(dName);
 
+		// Generates a random serial number
+		Random random = new Random(System.currentTimeMillis());
+		BigInteger serialNumber = BigInteger.probablePrime(20, random);
+		
 		certGen.setSerialNumber(serialNumber);
 		certGen.setIssuerDN(dnName);
 		certGen.setNotBefore(startDate);
@@ -105,13 +110,15 @@ public class CertificateFactory {
 		X509Certificate caCert,
 		Date startDate,
 		Date expiryDate,
-		BigInteger serialNumber,
 		PublicKey publicKey,
 		String principal) throws Exception {
 
 		X509V3CertificateGenerator certGen = new X509V3CertificateGenerator();
 		X500Principal subjectName = new X500Principal(principal);
-
+		
+		Random random = new Random(System.currentTimeMillis());
+		BigInteger serialNumber = BigInteger.probablePrime(20, random);
+		
 		certGen.setSerialNumber(serialNumber);
 		certGen.setIssuerDN(caCert.getSubjectX500Principal());
 		certGen.setNotBefore(startDate);
@@ -165,4 +172,17 @@ public class CertificateFactory {
 		out.close();
 
 	}
+	
+	public static void main(String[] args) throws Exception {
+		KeyPair pair = createKeyPair();
+		Date date = new Date();
+		Date other = new SimpleDateFormat("dd/MM/yyyy").parse("31/12/2007");
+				
+		X509Certificate generateSelfSignedCertificate = generateSelfSignedCertificate(date, other, pair.getPublic(), pair.getPrivate(), "CN=Root");
+		
+		BASE64Encoder b64 = new BASE64Encoder();
+		b64.encode(pair.getPrivate().getEncoded());
+		
+	}
 }
+
