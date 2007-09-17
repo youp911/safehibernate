@@ -18,7 +18,7 @@ import org.jdesktop.layout.GroupLayout;
 import org.jdesktop.layout.LayoutStyle;
 
 import br.com.medical.to.UserTO;
-import br.com.medicalapp.util.ServerFactory;
+import br.com.medicalapp.util.BusinessDelegate;
 
 /**
 * This code was edited or generated using CloudGarden's Jigloo
@@ -45,9 +45,6 @@ public class FrLogin extends javax.swing.JDialog {
 
 	private JLabel jLabel1;
 	private JTextField edtName;
-	private JLabel lbCertificate;
-	private JButton edtFindCertificate;
-	private JTextField edtCertificate;
 	private JPasswordField edtPassword;
 	private JButton btnOk;
 	private JButton btnCancel;
@@ -73,7 +70,7 @@ public class FrLogin extends javax.swing.JDialog {
 			GroupLayout thisLayout = new GroupLayout(
 				(JComponent) getContentPane());
 			getContentPane().setLayout(thisLayout);
-			this.setPreferredSize(new java.awt.Dimension(347, 181));
+			this.setPreferredSize(new java.awt.Dimension(347, 143));
 			this.setResizable(false);
 			this.setTitle("Login");
 			this.setModal(true);
@@ -113,25 +110,28 @@ public class FrLogin extends javax.swing.JDialog {
 				});
 			}
 			{
-				lbCertificate = new JLabel();
-				lbCertificate.setText("certificate:");
-			}
-			{
-				edtCertificate = new JTextField();
-			}
-			{
-				edtFindCertificate = new JButton();
-				edtFindCertificate.setText("...");
-				edtFindCertificate.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent evt) {
-						btnFindCertificatePerformed(evt);
-					}
-				});
-			}
-			{
 				edtPassword = new JPasswordField();
 			}
-			this.setSize(347, 181);
+			this.setSize(347, 143);
+			thisLayout.setHorizontalGroup(thisLayout.createSequentialGroup()
+			    .addContainerGap()
+			    .add(thisLayout.createParallelGroup()
+			        .add(GroupLayout.LEADING, jSeparator1, GroupLayout.PREFERRED_SIZE, 314, GroupLayout.PREFERRED_SIZE)
+			        .add(thisLayout.createSequentialGroup()
+			            .add(2)
+			            .add(thisLayout.createParallelGroup()
+			                .add(GroupLayout.LEADING, jLabel1, GroupLayout.PREFERRED_SIZE, 56, GroupLayout.PREFERRED_SIZE)
+			                .add(GroupLayout.LEADING, lblPassword, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE))
+			            .add(3)
+			            .add(thisLayout.createParallelGroup()
+			                .add(GroupLayout.LEADING, edtName, GroupLayout.PREFERRED_SIZE, 246, GroupLayout.PREFERRED_SIZE)
+			                .add(GroupLayout.LEADING, edtPassword, GroupLayout.PREFERRED_SIZE, 246, GroupLayout.PREFERRED_SIZE)
+			                .add(GroupLayout.LEADING, thisLayout.createSequentialGroup()
+			                    .add(90)
+			                    .add(btnOk, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
+			                    .addPreferredGap(LayoutStyle.RELATED)
+			                    .add(btnCancel, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)))))
+			    .addContainerGap(21, 21));
 			thisLayout.setVerticalGroup(thisLayout.createSequentialGroup()
 			    .addContainerGap()
 			    .add(thisLayout.createParallelGroup()
@@ -145,47 +145,13 @@ public class FrLogin extends javax.swing.JDialog {
 			        .add(GroupLayout.LEADING, thisLayout.createSequentialGroup()
 			            .add(1)
 			            .add(lblPassword, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)))
-			    .add(13)
-			    .add(thisLayout.createParallelGroup()
-			        .add(GroupLayout.LEADING, thisLayout.createParallelGroup()
-			            .add(GroupLayout.BASELINE, edtCertificate, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
-			            .add(GroupLayout.BASELINE, edtFindCertificate, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE))
-			        .add(GroupLayout.LEADING, thisLayout.createSequentialGroup()
-			            .add(1)
-			            .add(lbCertificate)))
 			    .addPreferredGap(LayoutStyle.RELATED)
-			    .add(jSeparator1, GroupLayout.PREFERRED_SIZE, 3, GroupLayout.PREFERRED_SIZE)
+			    .add(jSeparator1, GroupLayout.PREFERRED_SIZE, 6, GroupLayout.PREFERRED_SIZE)
 			    .addPreferredGap(LayoutStyle.RELATED)
 			    .add(thisLayout.createParallelGroup()
 			        .add(GroupLayout.BASELINE, btnCancel)
 			        .add(GroupLayout.BASELINE, btnOk))
-			    .addContainerGap(22, 22));
-			thisLayout.setHorizontalGroup(thisLayout.createSequentialGroup()
-			    .addContainerGap()
-			    .add(thisLayout.createParallelGroup()
-			        .add(GroupLayout.LEADING, jSeparator1, GroupLayout.PREFERRED_SIZE, 314, GroupLayout.PREFERRED_SIZE)
-			        .add(thisLayout.createSequentialGroup()
-			            .add(thisLayout.createParallelGroup()
-			                .add(GroupLayout.LEADING, lbCertificate, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
-			                .add(thisLayout.createSequentialGroup()
-			                    .add(2)
-			                    .add(thisLayout.createParallelGroup()
-			                        .add(GroupLayout.LEADING, jLabel1, GroupLayout.PREFERRED_SIZE, 56, GroupLayout.PREFERRED_SIZE)
-			                        .add(GroupLayout.LEADING, lblPassword, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE))))
-			            .add(3)
-			            .add(thisLayout.createParallelGroup()
-			                .add(GroupLayout.TRAILING, edtName, GroupLayout.PREFERRED_SIZE, 246, GroupLayout.PREFERRED_SIZE)
-			                .add(GroupLayout.TRAILING, edtPassword, GroupLayout.PREFERRED_SIZE, 246, GroupLayout.PREFERRED_SIZE)
-			                .add(GroupLayout.LEADING, thisLayout.createSequentialGroup()
-			                    .add(edtCertificate, GroupLayout.PREFERRED_SIZE, 216, GroupLayout.PREFERRED_SIZE)
-			                    .addPreferredGap(LayoutStyle.RELATED))
-			                .add(GroupLayout.LEADING, thisLayout.createSequentialGroup()
-			                    .add(90)
-			                    .add(btnOk, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
-			                    .addPreferredGap(LayoutStyle.RELATED)
-			                    .add(btnCancel, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE))
-			                .add(GroupLayout.TRAILING, edtFindCertificate, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))))
-			    .addContainerGap(21, 21));
+			    .addContainerGap(29, 29));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -198,12 +164,10 @@ public class FrLogin extends javax.swing.JDialog {
 			String password = new String(this.edtPassword.getPassword());
 			
 			UserTO userTO  = new UserTO(name, password);
-			if (ServerFactory.getInstance().getUserController().autenticate(userTO)) {
+			boolean logged = BusinessDelegate.getInstance().login(userTO);
+			if (logged) {
 				this.setVisible(false);
-				FrMain main = new FrMain();
-				main.setVisible(true);
-			} else {
-				JOptionPane.showMessageDialog(this, "Usuário ou senha inválidos");
+				new FrMain().setVisible(true);
 			}
 		}
 	}
