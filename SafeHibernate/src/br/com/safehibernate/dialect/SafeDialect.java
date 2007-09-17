@@ -25,7 +25,8 @@ public class SafeDialect extends Dialect {
 	private Dialect inner;
 
 	public SafeDialect() {
-				
+		
+		System.out.println("Creating safe dialect");		
 		
 		String className = Environment.getProperties().getProperty( CustomProperties.WRAPPED_DIALECT );
 		Class<?> clazz;
