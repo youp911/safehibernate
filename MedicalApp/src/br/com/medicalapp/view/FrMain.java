@@ -2,17 +2,28 @@ package br.com.medicalapp.view;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
+import java.util.Iterator;
+import java.util.List;
+
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDesktopPane;
 
 import javax.swing.JSeparator;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import org.jdesktop.layout.GroupLayout;
+import org.jdesktop.layout.LayoutStyle;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 
 import br.com.medicalapp.util.ServerFactory;
+import com.cloudgarden.layout.AnchorConstraint;
+import com.cloudgarden.layout.AnchorLayout;
+import br.com.medicalapp.util.BusinessDelegate;
 
 
 /**
@@ -41,6 +52,8 @@ public class FrMain extends javax.swing.JFrame {
 
 	private JMenuItem helpMenuItem;
 	private JMenu jMenu5;
+	private JButton txtLoadHistorics;
+	private JTextArea txtHistorics;
 	private JTextField txtHistoric;
 	private JButton btNewHist;
 	private JDesktopPane desktop;
@@ -86,25 +99,66 @@ public class FrMain extends javax.swing.JFrame {
 			{
 				desktop = new JDesktopPane();
 				getContentPane().add(desktop, BorderLayout.CENTER);
+				GroupLayout desktopLayout = new GroupLayout(
+					(JComponent) desktop);
+				desktop.setLayout(desktopLayout);
 				{
 					btNewHist = new JButton();
-					desktop.add(btNewHist);
 					btNewHist.setText("New Historic");
-					btNewHist.setBounds(119, 119, 133, 28);
 					btNewHist.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent evt) {
 							String doenca = FrMain.this.txtHistoric.getText();
-							ServerFactory.getInstance().getHistoricoController().criarHistorico(doenca);
+							BusinessDelegate.getInstance().createHistory(doenca);
 							
 						}
 					});
 				}
 				{
 					txtHistoric = new JTextField();
-					desktop.add(txtHistoric);
-					txtHistoric.setText("txtHistoric");
-					txtHistoric.setBounds(105, 42, 175, 28);
 				}
+				{
+					txtHistorics = new JTextArea();
+				}
+				{
+					txtLoadHistorics = new JButton();
+					txtLoadHistorics.setText("load historics");
+					txtLoadHistorics.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent evt) {
+							System.out
+								.println("txtLoadHistorics.actionPerformed, event="
+									+ evt);
+							List<String> historics = BusinessDelegate.getInstance().listHistorics();
+							StringBuilder sb = new StringBuilder();
+							for (String string : historics) {
+								sb.append(string + "\n");
+							}
+							txtHistorics.setText(sb.toString());
+						}
+					});
+				}
+						desktopLayout.setHorizontalGroup(desktopLayout.createSequentialGroup()
+				    .addContainerGap(19, 19)
+				    .add(desktopLayout.createParallelGroup()
+				        .add(GroupLayout.LEADING, desktopLayout.createSequentialGroup()
+				            .add(desktopLayout.createParallelGroup()
+				                .add(GroupLayout.LEADING, txtHistoric, GroupLayout.PREFERRED_SIZE, 272, GroupLayout.PREFERRED_SIZE)
+				                .add(GroupLayout.LEADING, desktopLayout.createSequentialGroup()
+				                    .add(6)
+				                    .add(txtLoadHistorics, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE)))
+				            .addPreferredGap(LayoutStyle.RELATED)
+				            .add(btNewHist, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE))
+				        .add(GroupLayout.LEADING, txtHistorics, GroupLayout.PREFERRED_SIZE, 362, GroupLayout.PREFERRED_SIZE))
+				    .addContainerGap());
+						desktopLayout.setVerticalGroup(desktopLayout.createSequentialGroup()
+				    .addContainerGap()
+				    .add(desktopLayout.createParallelGroup()
+				        .add(GroupLayout.LEADING, btNewHist)
+				        .add(GroupLayout.LEADING, txtHistoric, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE))
+				    .add(5)
+				    .add(txtLoadHistorics, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
+				    .add(17)
+				    .add(txtHistorics, GroupLayout.PREFERRED_SIZE, 135, GroupLayout.PREFERRED_SIZE)
+				    .addContainerGap(29, 29));
 			}
 			setSize(400, 300);
 			{
@@ -192,6 +246,11 @@ public class FrMain extends javax.swing.JFrame {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void txtLoadHistoricsActionPerformed(ActionEvent evt) {
+		System.out.println("txtLoadHistorics.actionPerformed, event=" + evt);
+		//TODO add your code for txtLoadHistorics.actionPerformed
 	}
 
 }

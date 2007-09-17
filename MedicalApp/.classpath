@@ -4,5 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/swing-layout-1.0.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/MedicalServer"/>
+	<classpathentry kind="lib" path="lib/jbossall-client.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
