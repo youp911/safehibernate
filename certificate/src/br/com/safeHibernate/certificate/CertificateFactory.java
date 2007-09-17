@@ -15,7 +15,6 @@ import java.security.Security;
 import java.security.SignatureException;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.X509Certificate;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 
@@ -42,14 +41,14 @@ public class CertificateFactory {
 	private static final String SECURITY_PROVIDER = "BC";
 
 	static {
-		//adds the Bouncy castle provider to java security
+		// adds the Bouncy castle provider to java security
 		Security.addProvider(new BouncyCastleProvider());
 	}
 
 	/**
 	 * @param startDate time from which certificate is valid
 	 * @param expiryDate time after which certificate is not valid
-	 * @return 
+	 * @return
 	 * @throws SignatureException
 	 * @throws NoSuchAlgorithmException
 	 * @throws NoSuchProviderException
@@ -75,7 +74,7 @@ public class CertificateFactory {
 		// Generates a random serial number
 		Random random = new Random(System.currentTimeMillis());
 		BigInteger serialNumber = BigInteger.probablePrime(20, random);
-		
+
 		certGen.setSerialNumber(serialNumber);
 		certGen.setIssuerDN(dnName);
 		certGen.setNotBefore(startDate);
@@ -85,27 +84,26 @@ public class CertificateFactory {
 		certGen.setPublicKey(publicKey);
 		certGen.setSignatureAlgorithm(DEFAULT_SIGNATURE_ALGORITHM);
 
-		return certGen.generate(privateKey,
-				SECURITY_PROVIDER);
+		return certGen.generate(privateKey, SECURITY_PROVIDER);
 	}
 
 	/**
-	 * 
 	 * @param certificate
 	 * @param out
 	 * @throws IOException
 	 * @throws CertificateEncodingException
 	 * @throws java.security.cert.CertificateEncodingException
 	 */
-	public static void exportCertificate(X509Certificate certificate, OutputStream out)
-	throws IOException,
-		CertificateEncodingException,
-		java.security.cert.CertificateEncodingException {
+	public static void exportCertificate(X509Certificate certificate,
+		OutputStream out)
+			throws IOException,
+				CertificateEncodingException,
+				java.security.cert.CertificateEncodingException {
 		out.write(certificate.getEncoded());
 		out.flush();
 		out.close();
 	}
-	
+
 	public static X509Certificate generateCASignedX509Certificate(PrivateKey caPrivateKey,
 		X509Certificate caCert,
 		Date startDate,
@@ -115,10 +113,10 @@ public class CertificateFactory {
 
 		X509V3CertificateGenerator certGen = new X509V3CertificateGenerator();
 		X500Principal subjectName = new X500Principal(principal);
-		
+
 		Random random = new Random(System.currentTimeMillis());
 		BigInteger serialNumber = BigInteger.probablePrime(20, random);
-		
+
 		certGen.setSerialNumber(serialNumber);
 		certGen.setIssuerDN(caCert.getSubjectX500Principal());
 		certGen.setNotBefore(startDate);
@@ -163,7 +161,8 @@ public class CertificateFactory {
 		}
 	}
 
-	public static final void saveKeyToCsr(PublicKey publicKey, OutputStream out) throws IOException {
+	public static final void saveKeyToCsr(PublicKey publicKey, OutputStream out)
+			throws IOException {
 		BASE64Encoder myB64 = new BASE64Encoder();
 		String b64 = myB64.encode(publicKey.getEncoded());
 		out.write("-----BEGIN CERTIFICATE-----\r\n".getBytes());
@@ -172,17 +171,23 @@ public class CertificateFactory {
 		out.close();
 
 	}
-	
+
 	public static void main(String[] args) throws Exception {
+
 		KeyPair pair = createKeyPair();
-		Date date = new Date();
-		Date other = new SimpleDateFormat("dd/MM/yyyy").parse("31/12/2007");
-				
-		X509Certificate generateSelfSignedCertificate = generateSelfSignedCertificate(date, other, pair.getPublic(), pair.getPrivate(), "CN=Root");
-		
+		/*
+		 * Date date = new Date(); Date other = new
+		 * SimpleDateFormat("dd/MM/yyyy").parse("31/12/2007"); X509Certificate
+		 * generateSelfSignedCertificate = generateSelfSignedCertificate(date,
+		 * other, pair.getPublic(), pair.getPrivate(), "CN=Root");
+		 */
+
 		BASE64Encoder b64 = new BASE64Encoder();
-		b64.encode(pair.getPrivate().getEncoded());
-		
+		String privateEncoded = b64.encode(pair.getPrivate().getEncoded());
+		String publicEncoded = b64.encode(pair.getPublic().getEncoded());
+
+		System.out.println("private: " + privateEncoded);
+		System.out.println("public: " + publicEncoded);
+
 	}
 }
-
