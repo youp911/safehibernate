@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE application PUBLIC "-//Sun Microsystems, Inc.//DTD J2EE Application 1.2//EN" "http://java.sun.com/j2ee/dtds/application_1_2.dtd">
+
+<application>
+
+  <display-name>Medical Application</display-name>
+
+  <module>
+  	<java>SafeHibernate.jar</java>
+  </module>
+  <module>
+  	<java>server.jar</java>
+  </module>
+  <module>
+  	<java>bcprov-jdk15-136.jar</java>
+  </module>
+  <module>
+  	<ejb>medicalApp.ejb3</ejb>
+  </module>
+
+</application>
