@@ -14,6 +14,41 @@ public class Interceptor extends EmptyInterceptor {
 
 	public Interceptor() {
 	}
+
+	@Override
+	public boolean onFlushDirty(Object entity,
+		Serializable id,
+		Object[] currentState,
+		Object[] previousState,
+		String[] propertyNames,
+		Type[] types) {
+		Class<?> clazz = entity.getClass();
+		for (int i = 0; i < propertyNames.length; i++) {
+			String propertyName = propertyNames[i];
+			try {
+				Field field = clazz.getDeclaredField(propertyName);
+				field.setAccessible(true);
+				SafeField annotation = field.getAnnotation(SafeField.class);
+				if (annotation != null) {
+					Object value = field.get(entity);
+					
+					String newValue = new String(DataTransformer.encrypt(value)); 
+					
+					currentState[i] = newValue;
+				}
+			} catch (SecurityException e) {
+				throw new RuntimeException(e);
+			} catch (NoSuchFieldException e) {
+				throw new RuntimeException(e);
+			} catch (IllegalArgumentException e) {
+				throw new RuntimeException(e);
+			} catch (IllegalAccessException e) {
+				throw new RuntimeException(e);
+			}
+		}
+		
+		return true;
+	}
 	
 	@Override
 	public boolean onSave(Object entity,
@@ -27,11 +62,15 @@ public class Interceptor extends EmptyInterceptor {
 			String propertyName = propertyNames[i];
 			try {
 				Field field = clazz.getDeclaredField(propertyName);
+				field.setAccessible(true);
 				SafeField annotation = field.getAnnotation(SafeField.class);
 				if (annotation != null) {
-					field.setAccessible(true);
 					Object value = field.get(entity);
-					field.set(entity, DataTransformer.encrypt(value));
+					
+					String newValue = new String(DataTransformer.encrypt(value)); 
+					
+					field.set(entity, newValue);
+					state[i] = newValue;
 				}
 			} catch (SecurityException e) {
 				throw new RuntimeException(e);
@@ -44,7 +83,7 @@ public class Interceptor extends EmptyInterceptor {
 			}
 		}
 		
-		return super.onSave(entity, id, state, propertyNames, types);
+		return true;
 	}
 	
 	@Override
@@ -66,7 +105,7 @@ public class Interceptor extends EmptyInterceptor {
 					String methodName = "get" + propertyName.substring(0,1).toUpperCase() + propertyName.substring(1);
 					Method m = clazz.getMethod(methodName);
 					Object value = m.invoke(entity);
-					field.set(entity, DataTransformer.encrypt(value));
+					field.set(entity, DataTransformer.decrypt(value));
 				}
 			} catch (SecurityException e) {
 				throw new RuntimeException(e);
