@@ -25,7 +25,7 @@ public class User {
 	}
 
 	public byte[] getPublicKey() {
-		return publicKey;
+		return this.publicKey;
 	}
 
 	public void setPublicKey(byte[] publicKey) {
@@ -33,7 +33,7 @@ public class User {
 	}
 
 	public byte[] getPrivateKey() {
-		return privateKey;
+		return this.privateKey;
 	}
 
 	public void setPrivateKey(byte[] privateKey) {
