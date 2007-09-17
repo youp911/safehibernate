@@ -1,18 +1,15 @@
 package br.com.safehibernate.interceptor;
 
-import java.security.PrivateKey;
-import java.security.PublicKey;
-
-import javax.crypto.Cipher;
-
 import org.hibernate.cfg.Environment;
 
 import br.com.safehibernate.CustomProperties;
-import br.com.safehibernate.ICertificateProvider;
+import br.com.safehibernate.provider.ICertificateProvider;
 
 public final class DataTransformer {
 
 	private static ICertificateProvider getCertificateProvider() {
+		Environment.getProperties().getProperty(
+				CustomProperties.WRAPPED_DIALECT);
 		String className = Environment.getProperties().getProperty(
 				CustomProperties.CERTIFICATE_PROVIDER);
 		try {
@@ -31,35 +28,17 @@ public final class DataTransformer {
 		assert value instanceof String;
 		byte[] data = ((String) value).getBytes();
 
-		PublicKey privateKey = getCertificateProvider().getPublicKey();
-		String algorithm = getCertificateProvider().getAlgorithm();
-
-		try {
-			Cipher cipher = Cipher.getInstance(algorithm);
-			cipher.init(Cipher.ENCRYPT_MODE, privateKey);
-			return cipher.doFinal(data);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		return getCertificateProvider().encrypt(data);
 	}
 
-	public static byte[] descrypt(Object value) {
+	public static byte[] decrypt(Object value) {
 		if (value == null) {
 			return null;
 		}
 		assert value instanceof String;
 		byte[] data = ((String) value).getBytes();
 
-		PrivateKey privateKey = getCertificateProvider().getPrivateKey();
-		String algorithm = getCertificateProvider().getAlgorithm();
-
-		try {
-			Cipher cipher = Cipher.getInstance(algorithm);
-			cipher.init(Cipher.DECRYPT_MODE, privateKey);
-			return cipher.doFinal(data);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		} 
+		return getCertificateProvider().decrypt(data);
 	}
 
 }

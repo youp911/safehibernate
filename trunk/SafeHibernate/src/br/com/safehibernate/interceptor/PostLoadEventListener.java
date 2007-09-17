@@ -22,7 +22,7 @@ public class PostLoadEventListener extends DefaultPostLoadEventListener {
 				try {
 					field.setAccessible(true);
 					Object value = field.get(o);
-					field.set(o, DataTransformer.encrypt(value));
+					field.set(o, new String(DataTransformer.decrypt(value)));
 				} catch (IllegalArgumentException e) {
 					throw new RuntimeException(e);
 				} catch (IllegalAccessException e) {
