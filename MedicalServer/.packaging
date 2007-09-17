@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<configurations>
+<archive destination="build" exploded="false" name="SafeHibernate.jar" used="true">
+<folder excludes="" includes="" location="../SafeHibernate/bin" name="bin" prefix="" project="SafeHibernate" projectLocation="bin" used="true"/>
+</archive>
+<archive destination="build" exploded="false" name="server.jar" used="true">
+<folder excludes="br/com/medical/controller/**" includes="**/*" location="bin" name="bin" prefix="" project="" projectLocation="/bin" used="true"/>
+</archive>
+<archive destination="build" exploded="false" name="medicalApp.ejb3" used="true">
+<folder excludes="" includes="br/com/medical/controller/**/*.class" location="bin" name="bin" prefix="" project="" projectLocation="bin" used="true"/>
+</archive>
+<archive destination="build" exploded="false" name="MedicalApp.ear" used="true">
+<file location="meta-inf/application.xml" name="application.xml" prefix="META-INF" project="" projectLocation="meta-inf/application.xml" used="true"/>
+<file location="build/medicalApp.ejb3" name="medicalApp.ejb3" prefix="" project="" projectLocation="build/medicalApp.ejb3" used="true"/>
+<file location="build/SafeHibernate.jar" name="SafeHibernate.jar" prefix="" project="" projectLocation="build/SafeHibernate.jar" used="true"/>
+<file location="build/server.jar" name="server.jar" prefix="" project="" projectLocation="build/server.jar" used="true"/>
+<file location="lib/bcprov-jdk15-136.jar" name="bcprov-jdk15-136.jar" prefix="" project="" projectLocation="lib/bcprov-jdk15-136.jar" used="true"/>
+</archive>
+</configurations>
