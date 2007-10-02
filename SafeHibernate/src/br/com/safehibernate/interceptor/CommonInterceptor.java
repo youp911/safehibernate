@@ -8,11 +8,11 @@ import java.lang.reflect.Method;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
 
-public class Interceptor extends EmptyInterceptor {
+public class CommonInterceptor extends EmptyInterceptor {
 
 	private static final long serialVersionUID = 2810394194063695562L;
 
-	public Interceptor() {
+	public CommonInterceptor() {
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public class Interceptor extends EmptyInterceptor {
 			try {
 				Field field = clazz.getDeclaredField(propertyName);
 				field.setAccessible(true);
-				SafeField annotation = field.getAnnotation(SafeField.class);
+				EncryptedField annotation = field.getAnnotation(EncryptedField.class);
 				if (annotation != null) {
 					Object value = field.get(entity);
 					
@@ -63,7 +63,7 @@ public class Interceptor extends EmptyInterceptor {
 			try {
 				Field field = clazz.getDeclaredField(propertyName);
 				field.setAccessible(true);
-				SafeField annotation = field.getAnnotation(SafeField.class);
+				EncryptedField annotation = field.getAnnotation(EncryptedField.class);
 				if (annotation != null) {
 					Object value = field.get(entity);
 					
@@ -100,7 +100,7 @@ public class Interceptor extends EmptyInterceptor {
 			try {
 				Field field = clazz.getDeclaredField(propertyName);
 				field.setAccessible(true);
-				SafeField annotation = field.getAnnotation(SafeField.class);
+				EncryptedField annotation = field.getAnnotation(EncryptedField.class);
 				if (annotation != null) {
 					String methodName = "get" + propertyName.substring(0,1).toUpperCase() + propertyName.substring(1);
 					Method m = clazz.getMethod(methodName);

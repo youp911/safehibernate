@@ -2,8 +2,8 @@ package br.com.safehibernate.interceptor;
 
 import org.hibernate.cfg.Environment;
 
-import br.com.safehibernate.CustomProperties;
 import br.com.safehibernate.provider.ICertificateProvider;
+import br.com.safehibernate.util.CustomProperties;
 
 public final class DataTransformer {
 
