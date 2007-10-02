@@ -4,7 +4,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="var" path="HIBERNATE_HOME/hibernate3.jar" sourcepath="/HIBERNATE_HOME/src"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/certificate"/>
-	<classpathentry kind="lib" path="/Util/lib/bcmail-jdk15-137.jar"/>
-	<classpathentry kind="lib" path="/Util/lib/bcprov-jdk15-136.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Util/lib/bcmail-jdk15-137.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Util/lib/bcprov-jdk15-136.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -8,6 +8,7 @@ import java.security.Security;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import br.com.safeHibernate.certificate.CertificateFactory;
+import br.com.safehibernate.provider.RSAProvider;
 
 public class TestRSAProvider {
 
