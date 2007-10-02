@@ -11,7 +11,7 @@ import javax.crypto.NoSuchPaddingException;
 
 import org.bouncycastle.util.encoders.Base64;
 
-public abstract class RSAProvider extends PrivateKeyProvider {
+public abstract class RSAProvider extends PublicKeyProvider {
 
 	private static final String RSA = "RSA/NONE/PKCS1Padding";
 

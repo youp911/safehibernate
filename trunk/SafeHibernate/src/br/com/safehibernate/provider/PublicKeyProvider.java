@@ -3,7 +3,7 @@ package br.com.safehibernate.provider;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
-public abstract class PrivateKeyProvider implements ICertificateProvider {
+public abstract class PublicKeyProvider implements ICertificateProvider {
 
 	protected abstract PrivateKey getPrivateKey();
 

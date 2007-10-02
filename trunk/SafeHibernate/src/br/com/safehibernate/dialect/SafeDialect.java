@@ -18,7 +18,7 @@ import org.hibernate.persister.entity.Lockable;
 import org.hibernate.sql.CaseFragment;
 import org.hibernate.sql.JoinFragment;
 
-import br.com.safehibernate.CustomProperties;
+import br.com.safehibernate.util.CustomProperties;
 
 public class SafeDialect extends Dialect {
 

@@ -1,4 +1,4 @@
-package br.com.safehibernate;
+package br.com.safehibernate.util;
 
 public final class CustomProperties {
 
