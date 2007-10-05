@@ -2,7 +2,7 @@ package br.com.safehibernate.provider;
 
 import javax.crypto.SecretKey;
 
-public abstract class SecreteKeyProvider implements ICertificateProvider {
+public interface SecretKeyProvider extends ICertificateProvider {
 
 	public abstract SecretKey getSecreteKey();
 
