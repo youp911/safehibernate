@@ -18,17 +18,16 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 import sun.misc.BASE64Decoder;
-
 import br.com.medical.controller.intf.UserController;
 import br.com.medical.model.User;
 import br.com.medical.to.UserTO;
-import br.com.medical.util.CertificateProvider;
+import br.com.medical.util.MedicalCertificateProvider;
 import br.com.medical.util.HibernateConfigurator;
 
 /**
- * Controlador de usu√°rio centralizando:
+ * Controlador de usu·rio centralizando:
  * <ol>
- * <li>Autentica√ß√£o</li>
+ * <li>AutenticaÁ„o</li>
  * </ol>
  * @author jean
  */
@@ -41,10 +40,10 @@ public class UserBean implements UserController {
 	}
 
 	/**
-	 * Realiza a autentica√ß√£o do usu√°rio indicando se a senha fornecida pelo
-	 * mesmo √© v√°lida.
-	 * @param userTO Transfer Object com as informa√ß√µes do usu√°rio
-	 * @return indicador de autentica√ß√£o
+	 * Realiza a autenticaÁ„o do usu·rio indicando se a senha fornecida pelo
+	 * mesmo È v·lida.
+	 * @param userTO Transfer Object com as informaÁıes do usu·rio
+	 * @return indicador de autenticaÁ„o
 	 */
 	public boolean autenticate(UserTO userTO) {
 
@@ -67,16 +66,19 @@ public class UserBean implements UserController {
 			try {
 				
 				BASE64Decoder bd = new BASE64Decoder();
-				bytePublic = bd.decodeBuffer(new String(bytePublic));
-				bytePrivate = bd.decodeBuffer(new String(bytePrivate));
-				
-				X509EncodedKeySpec publicKeySpec = new X509EncodedKeySpec(
-						bytePublic);
-				PKCS8EncodedKeySpec privateKeySpec = new PKCS8EncodedKeySpec(
-						bytePrivate);
 				KeyFactory kf = KeyFactory.getInstance("RSA");
-				publicKey = kf.generatePublic(publicKeySpec);
-				privateKey = kf.generatePrivate(privateKeySpec);
+				if (bytePublic != null) {
+					bytePublic = bd.decodeBuffer(new String(bytePublic));
+					X509EncodedKeySpec publicKeySpec = new X509EncodedKeySpec(
+							bytePublic);
+					publicKey = kf.generatePublic(publicKeySpec);
+				}
+				if (bytePrivate != null) {
+					bytePrivate = bd.decodeBuffer(new String(bytePrivate));
+					PKCS8EncodedKeySpec privateKeySpec = new PKCS8EncodedKeySpec(
+							bytePrivate);
+					privateKey = kf.generatePrivate(privateKeySpec);
+				}
 			} catch (NoSuchAlgorithmException e) {
 				throw new RuntimeException(e);
 			} catch (InvalidKeySpecException e) {
@@ -85,9 +87,11 @@ public class UserBean implements UserController {
 				throw new RuntimeException(e);
 			}
 
-			KeyPair keyPair = new KeyPair(publicKey, privateKey);
-			userTO.keyPair = keyPair;
-			CertificateProvider.threadLocal.set(userTO);
+			if (publicKey != null && privateKey != null) {
+				KeyPair keyPair = new KeyPair(publicKey, privateKey);
+				userTO.keyPair = keyPair;
+				MedicalCertificateProvider.threadLocal.set(userTO);
+			}
 		}
 
 		return user != null;

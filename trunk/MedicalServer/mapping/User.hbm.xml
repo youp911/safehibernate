@@ -16,5 +16,9 @@
        <property name="privateKey" column="PRIVATE_KEY" type="binary"/>
        <property name="publicKey" column="PUBLIC_KEY" type="binary"/>
        
+       <many-to-one name="person" class="br.com.medical.model.Person" unique="true" lazy="false" not-null="true">
+	       <column name="PERSON_ID"></column>
+       </many-to-one>
+       
    </class>
  </hibernate-mapping>

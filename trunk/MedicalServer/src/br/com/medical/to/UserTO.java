@@ -2,6 +2,8 @@ package br.com.medical.to;
 
 import java.security.KeyPair;
 
+import javax.crypto.SecretKey;
+
 public final class UserTO implements TO {
 
 	private static final long serialVersionUID = 7528074175899972805L;
@@ -9,7 +11,11 @@ public final class UserTO implements TO {
 	public String name;
 	public String password;
 	public KeyPair keyPair;
+	public SecretKey secretKey;
 
+	public UserTO(String name) {
+	}
+	
 	public UserTO(String name, String password) {
 		this.name = name;
 		this.password = password;

@@ -7,6 +7,8 @@ public class User {
 	private byte[] publicKey;
 	//The data on  this fild still encrypted by PBE Algotythm for security reasons
 	private byte[] privateKey;
+	
+	private Person person;
 
 	public String getName() {
 		return this.name;
@@ -38,6 +40,14 @@ public class User {
 
 	public void setPrivateKey(byte[] privateKey) {
 		this.privateKey = privateKey;
+	}
+
+	public Person getPerson() {
+		return this.person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
 	}
 
 }

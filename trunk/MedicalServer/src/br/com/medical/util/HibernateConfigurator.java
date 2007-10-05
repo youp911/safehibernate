@@ -4,15 +4,12 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import br.com.safehibernate.CustomProperties;
-import br.com.safehibernate.interceptor.Interceptor;
-import br.com.safehibernate.interceptor.PostLoadEventListener;
+import br.com.safehibernate.cfg.SafeConfiguration;
 
 public final class HibernateConfigurator {
 
 	private static HibernateConfigurator configurator;
 	private SessionFactory sf;
-	private static final Interceptor INTERCEPTOR = new br.com.safehibernate.interceptor.Interceptor();
 
 	private HibernateConfigurator() {
 		configure();
@@ -26,23 +23,14 @@ public final class HibernateConfigurator {
 	}
 
 	private void configure() {
-		// SessionFactory deve ser criado uma Ãºnica vez durante a execuÃ§Ã£o
-		// da aplicaÃ§Ã£o
-		Configuration cf = new org.hibernate.cfg.Configuration().configure();
-		// .configure("hibernate.cfg.xml");
-		cf.setProperty(CustomProperties.WRAPPED_DIALECT,
-				"org.hibernate.dialect.MySQLDialect");
-		cf.setProperty(CustomProperties.CERTIFICATE_PROVIDER, 
-				CertificateProvider.class.getName());
-		
-		cf.setListener("post-load", new PostLoadEventListener());
-
+		// SessionFactory deve ser criado uma Única vez durante a execução
+		// da aplicação
+		Configuration cf = new SafeConfiguration(MedicalCertificateProvider.class).configure();
 		this.sf = cf.buildSessionFactory();
 
 	}
 
 	public Session getSession() {
-		Session session = this.sf.openSession(INTERCEPTOR);
-		return session;
+		return this.sf.openSession();
 	}
 }

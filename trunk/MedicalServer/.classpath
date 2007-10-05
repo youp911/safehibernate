@@ -41,10 +41,10 @@
 	<classpathentry kind="var" path="HIBERNATE_HOME/lib/versioncheck.jar"/>
 	<classpathentry kind="var" path="HIBERNATE_HOME/lib/xerces-2.6.2.jar"/>
 	<classpathentry kind="var" path="HIBERNATE_HOME/lib/xml-apis.jar"/>
-	<classpathentry kind="var" path="HIBERNATE_HOME/hibernate3.jar" sourcepath="/HIBERNATE_HOME/src"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SafeHibernate"/>
 	<classpathentry kind="var" path="JDBC_LIB/mysql-connector-java-5.0.6-bin.jar"/>
 	<classpathentry kind="lib" path="lib/javaee.jar"/>
 	<classpathentry kind="lib" path="lib/bcprov-jdk15-136.jar"/>
+	<classpathentry kind="var" path="HIBERNATE_HOME/hibernate3.jar" sourcepath="/HIBERNATE_HOME/src"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

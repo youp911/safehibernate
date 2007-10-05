@@ -11,12 +11,13 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>org.jboss.ide.eclipse.packaging.core.PackagingBuilder</name>
+			<name>org.jboss.ide.eclipse.archives.core.archivesBuilder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
 	</buildSpec>
 	<natures>
+		<nature>org.jboss.ide.eclipse.archives.core.archivesNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
 </projectDescription>
