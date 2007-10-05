@@ -6,7 +6,7 @@
   <display-name>Medical Application</display-name>
 
   <module>
-  	<java>SafeHibernate.jar</java>
+  	<java>SafeHibernateFramework.jar</java>
   </module>
   <module>
   	<java>server.jar</java>
@@ -15,7 +15,7 @@
   	<java>bcprov-jdk15-136.jar</java>
   </module>
   <module>
-  	<ejb>medicalApp.ejb3</ejb>
+  	<ejb>MedicalApp.ejb3</ejb>
   </module>
 
 </application>
