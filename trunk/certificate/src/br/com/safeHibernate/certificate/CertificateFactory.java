@@ -18,6 +18,8 @@ import java.security.cert.X509Certificate;
 import java.util.Date;
 import java.util.Random;
 
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 import javax.security.auth.x500.X500Principal;
 
 import org.bouncycastle.asn1.x509.X509Extensions;
@@ -189,5 +191,16 @@ public class CertificateFactory {
 		System.out.println("private: " + privateEncoded);
 		System.out.println("public: " + publicEncoded);
 
+	}
+
+	public static SecretKey createSecreteKey(String algorithm, int size) throws NoSuchAlgorithmException {
+		KeyGenerator keyGen;
+		try {
+			keyGen = KeyGenerator.getInstance(algorithm, "BC");
+			keyGen.init(size);
+		} catch (NoSuchProviderException e) {
+			throw new RuntimeException(e);
+		}
+		return keyGen.generateKey();
 	}
 }
