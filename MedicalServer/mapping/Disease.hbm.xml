@@ -3,15 +3,15 @@
    PUBLIC "-//Hibernate/Hibernate Configuration DTD//EN"
    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
  <hibernate-mapping>
-   <class name="br.com.medical.model.Historico"
+   <class name="br.com.medical.model.Disease"
        dynamic-update="true"
        dynamic-insert="true"
        select-before-update="true"
        lazy="true"
-       table="HISTORICO">
-       <id name="codigo" column="COD" type="java.lang.Integer">
+       table="DISEASE">
+       <id name="scientificName" column="SCIENTIFIC_NAME" type="java.lang.String" length="100">
            <generator class="identity"/>
        </id>
-       <property name="doenca" column="DOENCA" type="java.lang.String" length="40"/>
+       <property name="commonName" column="COMMON_NAME" type="java.lang.String" length="100"/>
    </class>
  </hibernate-mapping>

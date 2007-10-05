@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<packages>
+   <package name="MedicalApp.ear" type="jar" todir="/MedicalServer/build" exploded="false" inWorkspace="true">
+      <package name="SafeHibernateFramework.jar" type="jar" exploded="false" inWorkspace="true">
+         <fileset dir="/SafeHibernate/bin" includes="**" excludes="**/.svn/**" inWorkspace="true">
+            <properties></properties>
+         </fileset>
+         <properties></properties>
+      </package>
+      <package name="MedicalApp.ejb3" type="org.jboss.ide.eclipse.as.core.packages.ejbPackageType" exploded="false" inWorkspace="true">
+         <fileset dir="/MedicalServer/bin" includes="br/com/medical/controller/**" excludes="**/.svn/**" inWorkspace="true">
+            <properties></properties>
+         </fileset>
+         <properties></properties>
+      </package>
+      <package name="server.jar" type="jar" exploded="false" inWorkspace="true">
+         <fileset dir="/MedicalServer/bin" includes="**" excludes="**/.svn/**,br/com/medical/controller/**" inWorkspace="true">
+            <properties></properties>
+         </fileset>
+         <properties></properties>
+      </package>
+      <fileset dir="/Util/lib" includes="*.jar" inWorkspace="true">
+         <properties></properties>
+      </fileset>
+      <folder name="META-INF">
+         <fileset dir="/MedicalServer/META-INF" includes="**/*" excludes=".svn/**" inWorkspace="true">
+            <properties></properties>
+         </fileset>
+         <properties></properties>
+      </folder>
+      <properties>
+         <property name="org.jboss.ide.eclipse.as.core.packages.ModuleIDPropertyKey" value="2"></property>
+      </properties>
+   </package>
+   <properties></properties>
+</packages>

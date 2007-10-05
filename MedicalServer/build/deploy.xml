@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Deployer" default="deploy">
 	<target name="deploy" description="Deploy the application to server">
-		<copy file="MedicalApp.ear" todir="/opt/jboss-4.2.1.GA/server/default/deploy"></copy>
+		<copy file="MedicalApp.ear" todir="D:/tcc/softwares/jboss-4.2.1.GA/server/default/deploy"></copy>
 	</target>
 </project>

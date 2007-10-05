@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE hibernate-mapping
+   PUBLIC "-//Hibernate/Hibernate Configuration DTD//EN"
+   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+ <hibernate-mapping>
+   <class name="br.com.medical.model.History"
+       dynamic-update="true"
+       dynamic-insert="true"
+       select-before-update="true"
+       lazy="true"
+       table="HISTORY">
+       <id name="code" column="CODE" type="java.lang.Integer">
+           <generator class="identity"/>
+       </id>
+       <property name="description" column="DESCRIPTION" type="java.lang.String" length="200"/>
+       
+       <many-to-one name="doctor" class="br.com.medical.model.Doctor" column="CD_DOCTOR" not-null="true"/>
+       <many-to-one name="patient" class="br.com.medical.model.Patient" column="CD_PATIENT" not-null="true"/>
+   </class>
+ </hibernate-mapping>

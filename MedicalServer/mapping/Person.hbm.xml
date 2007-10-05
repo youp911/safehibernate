@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE hibernate-mapping
+   PUBLIC "-//Hibernate/Hibernate Configuration DTD//EN"
+   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+ <hibernate-mapping>
+   <class name="br.com.medical.model.Person"
+       dynamic-update="true"
+       dynamic-insert="true"
+       select-before-update="true"
+       lazy="true"
+       table="PERSON"
+       discriminator-value="PERSON">
+       
+       <id name="document" column="DOCUMENT" type="int"/>
+ 	   <discriminator type="string" length="7" column="PERSON_TYPE"/>
+       
+       <property name="firstName" column="FIRST_NAME" type="java.lang.String" length="40" not-null="true"/>
+       <property name="lastName" column="LAST_NAME" type="java.lang.String" length="40" not-null="true"/>
+       <property name="birthDate" column="BIRTH_DATE" type="java.util.Date"/>
+       
+       <one-to-one name="user" class="br.com.medical.model.User" property-ref="person"/>
+       
+       <!-- Patient subclass -->
+       <subclass name="br.com.medical.model.Patient" discriminator-value="PATIENT">
+            <many-to-one name="doctor" class="br.com.medical.model.Doctor" update="false" insert="false">
+            </many-to-one>
+           	<set name="history" inverse="false" order-by="code">
+            	<key column="code"/>
+                <one-to-many class="br.com.medical.model.History"/>
+            </set>
+       </subclass>
+       
+       <!-- Doctor subclass -->
+       <subclass name="br.com.medical.model.Doctor" 
+                 discriminator-value="DOCTOR">
+            <property name="registerNumber" column="REGISTER_NUMBER" type="long"/>
+       </subclass>
+       
+   </class>
+ </hibernate-mapping>

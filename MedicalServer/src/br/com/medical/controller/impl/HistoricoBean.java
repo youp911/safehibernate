@@ -12,7 +12,9 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 import br.com.medical.controller.intf.HistoricoController;
-import br.com.medical.model.Historico;
+import br.com.medical.model.Doctor;
+import br.com.medical.model.History;
+import br.com.medical.model.Patient;
 import br.com.medical.to.UserTO;
 import br.com.medical.util.HibernateConfigurator;
 
@@ -31,26 +33,33 @@ public final class HistoricoBean implements HistoricoController {
 	}
 
 	/**
-	 * Cria um histÃ³rico para a doenÃ§a informada
-	 * @param doenca
+	 * Cria um histórico para a doença informada
+	 * @param description
 	 */
 	@Override
-	public void criarHistorico(String doenca) {
+	public void criarHistorico(String description, Patient patient, Doctor doctor) {
+		assert patient != null;
+		assert doctor != null;
+		assert description != null;
+		
 		Session session = HibernateConfigurator.getInstance().getSession();
-		Historico historico = new Historico();
-		historico.setDoenca(doenca);
+		
+		History historico = new History();
+		historico.setDescription(description);
+		historico.setPatient(patient);
+		historico.setDoctor(doctor);
 		session.save(historico);
 	}
 
 	@Override
 	public List<String> listarHistoricos(UserTO user) {
 		Session session = HibernateConfigurator.getInstance().getSession();
-		Query query = session.createQuery("select h from " + Historico.class.getName() + " h ");
+		Query query = session.createQuery("select h from " + History.class.getName() + " h ");
 		List<?> list = query.list();
 		List<String> result = new ArrayList<String>(list.size());
 		for (Iterator<?> iterator = list.iterator(); iterator.hasNext();) {
-			Historico hist = (Historico) iterator.next();
-			result.add(hist.getCodigo() + " - " + hist.getDoenca());
+			History hist = (History) iterator.next();
+			result.add(hist.getCode() + " - " + hist.getDescription());
 		}
 		return result;
 	}
