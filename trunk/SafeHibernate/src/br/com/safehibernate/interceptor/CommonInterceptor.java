@@ -98,18 +98,31 @@ public class CommonInterceptor extends EmptyInterceptor {
 		for (int i = 0; i < propertyNames.length; i++) {
 			String propertyName = propertyNames[i];
 			try {
-				Field field = clazz.getDeclaredField(propertyName);
-				field.setAccessible(true);
-				EncryptedField annotation = field.getAnnotation(EncryptedField.class);
-				if (annotation != null) {
-					String methodName = "get" + propertyName.substring(0,1).toUpperCase() + propertyName.substring(1);
-					Method m = clazz.getMethod(methodName);
-					Object value = m.invoke(entity);
-					field.set(entity, DataTransformer.decrypt(value));
+				Field field = null;
+				try {
+					field = clazz.getDeclaredField(propertyName);
+				} catch (NoSuchFieldException e) {
+					Class<?>[] declaredClasses = clazz.getDeclaredClasses();
+					for (Class<?> superclass : declaredClasses) {
+						try {
+							field = superclass.getDeclaredField(propertyName);
+							break;
+						} catch (NoSuchFieldException e1) {
+							continue;
+						}
+					}
+				}
+				if (field != null) {
+					field.setAccessible(true);
+					EncryptedField annotation = field.getAnnotation(EncryptedField.class);
+					if (annotation != null) {
+						String methodName = "get" + propertyName.substring(0,1).toUpperCase() + propertyName.substring(1);
+						Method m = clazz.getMethod(methodName);
+						Object value = m.invoke(entity);
+						field.set(entity, DataTransformer.decrypt(value));
+					}
 				}
 			} catch (SecurityException e) {
-				throw new RuntimeException(e);
-			} catch (NoSuchFieldException e) {
 				throw new RuntimeException(e);
 			} catch (IllegalArgumentException e) {
 				throw new RuntimeException(e);

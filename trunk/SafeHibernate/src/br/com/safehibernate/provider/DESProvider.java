@@ -9,7 +9,7 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
-public abstract class DESProvider extends SecreteKeyProvider {
+public abstract class DESProvider implements SecretKeyProvider {
 
 	private static final String DES = "DES/ECB/PKCS5Padding";
 	

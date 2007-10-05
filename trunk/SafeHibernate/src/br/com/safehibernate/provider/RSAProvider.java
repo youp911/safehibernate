@@ -3,16 +3,22 @@ package br.com.safehibernate.provider;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+import java.security.Security;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.encoders.Base64;
 
-public abstract class RSAProvider extends PublicKeyProvider {
+public abstract class RSAProvider implements PublicKeyProvider {
 
+	static {
+		Security.addProvider(new BouncyCastleProvider());
+	}
+	
 	private static final String RSA = "RSA/NONE/PKCS1Padding";
 
 	@Override
