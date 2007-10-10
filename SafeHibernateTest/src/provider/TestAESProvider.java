@@ -26,6 +26,10 @@ public class TestAESProvider {
 
 		byte[] data = inner.encrypt(value.getBytes());
 
+		String testValue = new String(data);
+
+		data = testValue.getBytes();
+		
 		assertEquals(value, new String(inner.decrypt(data)));
 
 	}
@@ -36,14 +40,14 @@ public class TestAESProvider {
 
 		InnerAES() {
 			try {
-				this.key = CertificateFactory.createSecreteKey("AES", 128);
+				this.key = CertificateFactory.createSecretKey("AES", 128);
 			} catch (NoSuchAlgorithmException e) {
 				throw new RuntimeException(e);
 			}
 		}
 
 		@Override
-		public SecretKey getSecreteKey() {
+		public SecretKey getSecretKey() {
 			return this.key;
 		}
 
