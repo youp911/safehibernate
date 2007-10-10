@@ -11,8 +11,7 @@ import java.security.SignatureException;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
-public abstract class SignatureProvider implements SecretKeyProvider,
-		PublicKeyProvider {
+public abstract class SignatureProvider implements PublicKeyProvider {
 
 	private Signature signature;
 
@@ -29,7 +28,11 @@ public abstract class SignatureProvider implements SecretKeyProvider,
 
 	public SignatureProvider(String algorithm, int signatureSize)
 			throws NoSuchAlgorithmException {
-		this.signature = Signature.getInstance(algorithm);
+		try {
+			this.signature = Signature.getInstance(algorithm, "BC");
+		} catch (NoSuchProviderException e) {
+			throw new RuntimeException(e);
+		}
 		this.signatureSize = signatureSize;
 	}
 

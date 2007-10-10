@@ -27,24 +27,15 @@ public class CommonInterceptor extends EmptyInterceptor {
 			String propertyName = propertyNames[i];
 			try {
 				Field field = clazz.getDeclaredField(propertyName);
-				field.setAccessible(true);
-				EncryptedField annotation = field.getAnnotation(EncryptedField.class);
-				if (annotation != null) {
-					Object value = field.get(entity);
-					
-					String newValue = new String(DataTransformer.encrypt(value)); 
-					
-					currentState[i] = newValue;
-				}
+				Object newValue = new DataTransformer().encrypt(field, entity); 
+				currentState[i] = newValue;
 			} catch (SecurityException e) {
 				throw new RuntimeException(e);
 			} catch (NoSuchFieldException e) {
 				throw new RuntimeException(e);
 			} catch (IllegalArgumentException e) {
 				throw new RuntimeException(e);
-			} catch (IllegalAccessException e) {
-				throw new RuntimeException(e);
-			}
+			} 
 		}
 		
 		return true;
@@ -63,24 +54,16 @@ public class CommonInterceptor extends EmptyInterceptor {
 			try {
 				Field field = clazz.getDeclaredField(propertyName);
 				field.setAccessible(true);
-				EncryptedField annotation = field.getAnnotation(EncryptedField.class);
-				if (annotation != null) {
-					Object value = field.get(entity);
-					
-					String newValue = new String(DataTransformer.encrypt(value)); 
-					
-					field.set(entity, newValue);
-					state[i] = newValue;
-				}
+				Object newValue = new DataTransformer().encrypt(field, entity); 
+				/*field.set(entity, newValue);*/
+				state[i] = newValue;
 			} catch (SecurityException e) {
 				throw new RuntimeException(e);
 			} catch (NoSuchFieldException e) {
 				throw new RuntimeException(e);
 			} catch (IllegalArgumentException e) {
 				throw new RuntimeException(e);
-			} catch (IllegalAccessException e) {
-				throw new RuntimeException(e);
-			}
+			} 
 		}
 		
 		return true;
@@ -114,13 +97,11 @@ public class CommonInterceptor extends EmptyInterceptor {
 				}
 				if (field != null) {
 					field.setAccessible(true);
-					EncryptedField annotation = field.getAnnotation(EncryptedField.class);
-					if (annotation != null) {
-						String methodName = "get" + propertyName.substring(0,1).toUpperCase() + propertyName.substring(1);
-						Method m = clazz.getMethod(methodName);
-						Object value = m.invoke(entity);
-						field.set(entity, DataTransformer.decrypt(value));
-					}
+					String methodName = "get" + propertyName.substring(0,1).toUpperCase() + propertyName.substring(1);
+					Method m = clazz.getDeclaredMethod(methodName);
+					m.setAccessible(true);
+					/*Object value = */m.invoke(entity);
+					/*field.set(entity, */new DataTransformer().decrypt(field, entity)/*)*/;
 				}
 			} catch (SecurityException e) {
 				throw new RuntimeException(e);
