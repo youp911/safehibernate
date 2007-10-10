@@ -17,17 +17,14 @@ public class PostLoadInterceptor extends DefaultPostLoadEventListener {
 		Field[] fields = o.getClass().getDeclaredFields();
 		for (int i = 0; i < fields.length; i++) {
 			Field field = fields[i];
-			EncryptedField annotation = field.getAnnotation(EncryptedField.class);
-			if (annotation != null) {
-				try {
-					field.setAccessible(true);
-					Object value = field.get(o);
-					field.set(o, new String(DataTransformer.decrypt(value)));
-				} catch (IllegalArgumentException e) {
-					throw new RuntimeException(e);
-				} catch (IllegalAccessException e) {
-					throw new RuntimeException(e);
-				}
+			try {
+				field.setAccessible(true);
+				Object value = field.get(o);
+				/*field.set(o, */new DataTransformer().decrypt(field, o)/*)*/;
+			} catch (IllegalArgumentException e) {
+				throw new RuntimeException(e);
+			} catch (IllegalAccessException e) {
+				throw new RuntimeException(e);
 			}
 		}
 	}

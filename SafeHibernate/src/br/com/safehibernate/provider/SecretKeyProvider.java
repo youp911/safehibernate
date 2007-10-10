@@ -4,6 +4,6 @@ import javax.crypto.SecretKey;
 
 public interface SecretKeyProvider extends ICertificateProvider {
 
-	public abstract SecretKey getSecreteKey();
+	public abstract SecretKey getSecretKey();
 
 }

@@ -9,6 +9,8 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
+import org.bouncycastle.util.encoders.Base64;
+
 public abstract class AESProvider implements SecretKeyProvider {
 
 private static final String AES = "AES/ECB/PKCS5Padding";
@@ -18,8 +20,8 @@ private static final String AES = "AES/ECB/PKCS5Padding";
 		Cipher cipher;
 		try {
 			cipher = Cipher.getInstance(AES, "BC");
-			cipher.init(Cipher.DECRYPT_MODE, getSecreteKey());
-			byte[] encrypted = cipher.doFinal(source);
+			cipher.init(Cipher.DECRYPT_MODE, getSecretKey());
+			byte[] encrypted = cipher.doFinal(Base64.decode(source));
 			return encrypted;
 		} catch (NoSuchAlgorithmException e) {
 			throw new RuntimeException(e);
@@ -41,9 +43,9 @@ private static final String AES = "AES/ECB/PKCS5Padding";
 		Cipher cipher;
 		try {
 			cipher = Cipher.getInstance(AES, "BC");
-			cipher.init(Cipher.ENCRYPT_MODE, getSecreteKey());
+			cipher.init(Cipher.ENCRYPT_MODE, getSecretKey());
 			byte[] encrypted = cipher.doFinal(source);
-			return encrypted;
+			return Base64.encode(encrypted);
 		} catch (NoSuchAlgorithmException e) {
 			throw new RuntimeException(e);
 		} catch (NoSuchProviderException e) {

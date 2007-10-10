@@ -1,10 +1,12 @@
-package br.com.safehibernate.interceptor;
+package br.com.safehibernate.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
+import br.com.safehibernate.provider.SignatureProvider;
 
 //Define a política de rentenção desta anotação.
 //Definindo como Runtime esta anotação será mantida pela JVM
@@ -16,6 +18,9 @@ import java.lang.annotation.Target;
 @Target (ElementType.FIELD)
 
 @Documented
-public @interface EncryptedField {
+public @interface SignedField {
 
+	Class<? extends SignatureProvider> provider() default SignatureProvider.class;
+	
+	String storeOnField() default "this";
 }

@@ -9,17 +9,19 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
+import org.bouncycastle.util.encoders.Base64;
+
 public abstract class DESProvider implements SecretKeyProvider {
 
-	private static final String DES = "DES/ECB/PKCS5Padding";
+	private static final String DES = "PBEWithMD5AndDES/ECB/PKCS5Padding";
 	
 	@Override
 	public byte[] decrypt(byte[] source) {
 		Cipher cipher;
 		try {
 			cipher = Cipher.getInstance(DES, "BC");
-			cipher.init(Cipher.DECRYPT_MODE, getSecreteKey());
-			byte[] encrypted = cipher.doFinal(source);
+			cipher.init(Cipher.DECRYPT_MODE, getSecretKey());
+			byte[] encrypted = cipher.doFinal(Base64.decode(source));
 			return encrypted;
 		} catch (NoSuchAlgorithmException e) {
 			throw new RuntimeException(e);
@@ -41,9 +43,9 @@ public abstract class DESProvider implements SecretKeyProvider {
 		Cipher cipher;
 		try {
 			cipher = Cipher.getInstance(DES, "BC");
-			cipher.init(Cipher.ENCRYPT_MODE, getSecreteKey());
+			cipher.init(Cipher.ENCRYPT_MODE, getSecretKey());
 			byte[] encrypted = cipher.doFinal(source);
-			return encrypted;
+			return Base64.encode(encrypted);
 		} catch (NoSuchAlgorithmException e) {
 			throw new RuntimeException(e);
 		} catch (NoSuchProviderException e) {
